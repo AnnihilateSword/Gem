@@ -1,5 +1,6 @@
 #pragma once
 #include "Core.h"
+#include "Gem/Events/Event.h"
 
 namespace Gem
 {

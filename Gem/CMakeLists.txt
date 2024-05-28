@@ -41,7 +41,7 @@ $<$<CONFIG:Release>:GEM_RELEASE>
 # include Ŀ¼
 target_include_directories(${PROJECT_NAME}
 PUBLIC
-#${CMAKE_CURRENT_LIST_DIR}/src
+${CMAKE_CURRENT_LIST_DIR}/src
 ${CMAKE_CURRENT_LIST_DIR}/vendor/spdlog/include
 )
 
