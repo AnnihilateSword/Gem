@@ -70,6 +70,7 @@ namespace Gem
 		{
 			if (m_Event.GetEventType() == T::GetStaticType())
 			{
+				// eg. *(KeyEvent*)&m_Event，先取地址，再转换类型，再解引用
 				m_Event.m_Handled = func(*(T*)&m_Event);
 				return true;
 			}

@@ -18,6 +18,8 @@
 **INSTALL.**
 **ZERO_CHECK.**
 **.dir**
+**CMakeDoxyfile.in**
+**CMakeDoxygenDefaults.cmake**
 
 # Visual Studio
 .vs/

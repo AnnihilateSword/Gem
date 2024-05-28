@@ -46,7 +46,15 @@ target_include_directories(${PROJECT_NAME}
 PUBLIC
 ${CMAKE_CURRENT_LIST_DIR}/src
 ${CMAKE_CURRENT_LIST_DIR}/vendor/spdlog/include
+${CMAKE_CURRENT_LIST_DIR}/vendor/glfw/include
 )
+
+# 添加子目录
+# glfw
+add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/vendor/glfw)
+
+# 如果是项目会优先引用项目，如果不是则链接库
+target_link_libraries(${PROJECT_NAME} glfw opengl32)
 
 # ---------------------------------------------------------------------------------------------------------------
 # 拷贝 DLL 操作
