@@ -38,6 +38,9 @@ target_compile_definitions(${PROJECT_NAME} PRIVATE
 $<$<CONFIG:Release>:GEM_RELEASE>
 )
 
+# …Ë÷√‘§±‡“ÎÕ∑
+target_precompile_headers(${PROJECT_NAME} PRIVATE ${CMAKE_CURRENT_LIST_DIR}/src/gempch.h)
+
 # include ƒø¬º
 target_include_directories(${PROJECT_NAME}
 PUBLIC

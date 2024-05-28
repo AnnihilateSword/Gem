@@ -1,3 +1,4 @@
+#include "gempch.h"
 #include "Application.h"
 
 #include "Gem/Events/ApplicationEvent.h"
