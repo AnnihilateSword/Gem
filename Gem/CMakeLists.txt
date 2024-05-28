@@ -48,6 +48,7 @@ ${CMAKE_CURRENT_LIST_DIR}/src
 ${CMAKE_CURRENT_LIST_DIR}/vendor/spdlog/include
 ${CMAKE_CURRENT_LIST_DIR}/vendor/glfw/include
 ${CMAKE_CURRENT_LIST_DIR}/vendor/glad/include
+${CMAKE_CURRENT_LIST_DIR}/vendor/imgui
 )
 
 # 添加子目录
@@ -57,8 +58,11 @@ add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/vendor/glfw)
 # glad
 add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/vendor/glad)
 
+# imgui
+add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/vendor/imgui)
+
 # 如果是项目会优先引用项目，如果不是则链接库
-target_link_libraries(${PROJECT_NAME} glfw opengl32 glad)
+target_link_libraries(${PROJECT_NAME} glfw opengl32 glad imgui)
 
 # ---------------------------------------------------------------------------------------------------------------
 # 拷贝 DLL 操作

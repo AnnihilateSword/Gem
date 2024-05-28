@@ -28,3 +28,6 @@
 **.vcxproj.filters
 **.vcxproj.user
 **.csproj
+
+# Imgui
+**imgui.ini**
