@@ -49,6 +49,7 @@ ${CMAKE_CURRENT_LIST_DIR}/vendor/spdlog/include
 ${CMAKE_CURRENT_LIST_DIR}/vendor/glfw/include
 ${CMAKE_CURRENT_LIST_DIR}/vendor/glad/include
 ${CMAKE_CURRENT_LIST_DIR}/vendor/imgui
+${CMAKE_CURRENT_LIST_DIR}/vendor/glm
 )
 
 # Ìí¼Ó×ÓÄ¿Â¼
