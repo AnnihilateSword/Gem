@@ -7,6 +7,7 @@
 namespace Gem
 {
 	Application* Application::s_Instance = nullptr;
+	ImGuiLayer* Application::s_ImGuiLayer = nullptr;
 
 	Application::Application()
 	{
@@ -16,6 +17,11 @@ namespace Gem
 		m_Window = std::unique_ptr<Window>(Window::Create());
 		// 这里绑定事件发生时进行处理的函数为 OnEvent（比如按键，鼠标点击，窗口等事件）
 		m_Window->SetEventCallback(GEM_BIND_EVENT_FN(Application::OnEvent));
+
+		// ImGui
+		s_ImGuiLayer = new ImGuiLayer();
+		// 在尾部插入
+		PushOverlay(s_ImGuiLayer);
 	}
 
 	Application::~Application()
@@ -32,6 +38,12 @@ namespace Gem
 			// 渲染器层将从前到后，事件层将从后到前
 			for (Layer* layer : m_LayerStack)
 				layer->OnUpdate();
+
+			// ImGui
+			s_ImGuiLayer->Begin();
+			for (Layer* layer : m_LayerStack)
+				layer->OnImGuiRender();
+			s_ImGuiLayer->End();
 
 			m_Window->OnUpdate();
 		}

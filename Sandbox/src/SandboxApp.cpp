@@ -1,19 +1,6 @@
 #include <Gem.h>
 
-// TEST GLM
-#include <glm/vec3.hpp> // glm::vec3
-#include <glm/vec4.hpp> // glm::vec4
-#include <glm/mat4x4.hpp> // glm::mat4
-#include <glm/gtc/matrix_transform.hpp> // glm::translate, glm::rotate, glm::scale, glm::perspective
-glm::mat4 camera(float Translate, glm::vec2 const& Rotate)
-{
-	glm::mat4 Projection = glm::perspective(glm::radians(45.0f), 4.0f / 3.0f, 0.1f, 100.f);
-	glm::mat4 View = glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, 0.0f, -Translate));
-	View = glm::rotate(View, Rotate.y, glm::vec3(-1.0f, 0.0f, 0.0f));
-	View = glm::rotate(View, Rotate.x, glm::vec3(0.0f, 1.0f, 0.0f));
-	glm::mat4 Model = glm::scale(glm::mat4(1.0f), glm::vec3(0.5f));
-	return Projection * View * Model;
-}
+#include "imgui.h"
 
 class ExampleLayer : public Gem::Layer
 {
@@ -21,13 +8,19 @@ public:
 	ExampleLayer()
 		: Layer("Example")
 	{
-		auto a = camera(5.0f, glm::vec2(1.0f, 2.0f));
 	}
 
 	void OnUpdate() override
 	{
 		if (Gem::Input::IsKeyPressed(GEM_KEY_TAB))
 			GEM_TRACE("Tab key is pressed (poll)!");
+	}
+
+	virtual void OnImGuiRender() override
+	{
+		ImGui::Begin("Test");
+		ImGui::Text("Hello World");
+		ImGui::End();
 	}
 
 	void OnEvent(Gem::Event& e) override
@@ -47,8 +40,10 @@ class Sandbox : public Gem::Application
 public:
 	Sandbox()
 	{
+		// 因为 ImGui 生成静态库，然后链接到 Gem，但是 Gem 又生成动态库，会导致 Sandbox 最终出现空指针错误
+		// 这里的解决方法重新设置了 ImGui 上下文
+		ImGui::SetCurrentContext(Application::GetImGuiContext());
 		PushLayer(new ExampleLayer());
-		PushOverlay(new Gem::ImGuiLayer());
 	}
 
 	~Sandbox()
