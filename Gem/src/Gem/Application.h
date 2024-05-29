@@ -2,12 +2,13 @@
 #include "Core.h"
 
 #include "Window.h"
-#include "Gem/LayerStack.h"
 #include "Gem/Events/ApplicationEvent.h"
 
+#include "Gem/LayerStack.h"
 #include "Gem/ImGui/ImGuiLayer.h"
-
 #include "Gem/Renderer/Shader.h"
+
+#include "Gem/Renderer/Buffer.h"
 
 namespace Gem
 {
@@ -35,8 +36,10 @@ namespace Gem
 		LayerStack m_LayerStack;
 		ImGuiLayer* m_ImGuiLayer;
 
-		unsigned int m_VertexArray, m_VertexBuffer, m_IndexBuffer;
+		unsigned int m_VertexArray;
 		std::unique_ptr<Shader> m_Shader;
+		std::unique_ptr<VertexBuffer> m_VertexBuffer;
+		std::unique_ptr<IndexBuffer> m_IndexBuffer;
 	private:
 		static Application* s_Instance;
 	};
