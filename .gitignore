@@ -15,7 +15,6 @@
 **compile_commands.json
 **CTestTestfile.cmake
 **_deps
-**INSTALL.**
 **ZERO_CHECK.**
 **.dir**
 **CMakeDoxyfile.in**
