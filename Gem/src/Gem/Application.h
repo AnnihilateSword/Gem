@@ -7,6 +7,8 @@
 
 #include "Gem/ImGui/ImGuiLayer.h"
 
+#include "Gem/Renderer/Shader.h"
+
 namespace Gem
 {
 	class GEM_API Application
@@ -34,6 +36,7 @@ namespace Gem
 		ImGuiLayer* m_ImGuiLayer;
 
 		unsigned int m_VertexArray, m_VertexBuffer, m_IndexBuffer;
+		std::unique_ptr<Shader> m_Shader;
 	private:
 		static Application* s_Instance;
 	};
