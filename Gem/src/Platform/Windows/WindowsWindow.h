@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Gem/Window.h"
+#include "Gem/Renderer/GraphicsContext.h"
 
 struct GLFWwindow;
 
@@ -29,6 +30,7 @@ namespace Gem
 		virtual void Shutdown();
 	private:
 		GLFWwindow* m_Window;
+		GraphicsContext* m_Context;
 
 		struct WindowData
 		{
