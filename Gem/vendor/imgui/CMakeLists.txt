@@ -17,3 +17,11 @@ imgui_tables.cpp
 )
 
 add_library(${PROJECT_NAME} STATIC ${ImGuiSources})
+
+# ±‡“Î…Ë÷√
+if(MSVC)
+    target_compile_options(${PROJECT_NAME} PRIVATE
+        $<$<CONFIG:Release>:/MT>
+        $<$<CONFIG:Debug>:/MTd>
+    )
+endif()

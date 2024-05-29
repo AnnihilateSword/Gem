@@ -1,11 +1,17 @@
 #pragma once
 
 #ifdef GEM_PLATFORM_WINDOWS
-	#ifdef GEM_BUILD_DLL
-		#define GEM_API __declspec(dllexport)
+
+	#if GEM_DYNAMIC_LINK
+		#ifdef GEM_BUILD_DLL
+			#define GEM_API __declspec(dllexport)
+		#else
+			#define GEM_API __declspec(dllimport)
+		#endif
 	#else
-		#define GEM_API __declspec(dllimport)
+		#define GEM_API
 	#endif
+
 #else
 	#error Gem only supports Windows!
 #endif

@@ -13,8 +13,8 @@ add_executable(${PROJECT_NAME} ${SandboxSources})
 # ±‡“Î…Ë÷√
 if(MSVC)
     target_compile_options(${PROJECT_NAME} PRIVATE
-        $<$<CONFIG:Release>:/MD>
-        $<$<CONFIG:Debug>:/MDd>
+        $<$<CONFIG:Release>:/MT>
+        $<$<CONFIG:Debug>:/MTd>
     )
 endif()
 
