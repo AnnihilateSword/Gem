@@ -105,10 +105,4 @@ namespace Gem
 			glfwMakeContextCurrent(backup_current_context);
 		}
 	}
-
-	ImGuiContext* ImGuiLayer::GetImGuiContext()
-	{
-		// 获取 ImGui 当前上下文
-		return ImGui::GetCurrentContext();
-	}
 }

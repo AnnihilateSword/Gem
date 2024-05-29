@@ -2,12 +2,12 @@
 #include "Application.h"
 
 #include "Input.h"
+#include <glad/glad.h>
 #include <GLFW/glfw3.h>
 
 namespace Gem
 {
 	Application* Application::s_Instance = nullptr;
-	ImGuiLayer* Application::s_ImGuiLayer = nullptr;
 
 	Application::Application()
 	{
@@ -19,9 +19,33 @@ namespace Gem
 		m_Window->SetEventCallback(GEM_BIND_EVENT_FN(Application::OnEvent));
 
 		// ImGui
-		s_ImGuiLayer = new ImGuiLayer();
+		m_ImGuiLayer = new ImGuiLayer();
 		// 在尾部插入
-		PushOverlay(s_ImGuiLayer);
+		PushOverlay(m_ImGuiLayer);
+
+		glGenVertexArrays(1, &m_VertexArray);
+		glBindVertexArray(m_VertexArray);
+
+		glGenBuffers(1, &m_VertexBuffer);
+		glBindBuffer(GL_ARRAY_BUFFER, m_VertexBuffer);
+
+		float vertices[3 * 3] = {
+			-0.5f, -0.5f, 0.0f,
+			 0.5f, -0.5f, 0.0f,
+			 0.0f,  0.5f, 0.0f
+		};
+
+		glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+
+		glEnableVertexAttribArray(0);
+		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), nullptr);
+
+		glGenBuffers(1, &m_IndexBuffer);
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_IndexBuffer);
+
+		unsigned int indices[3] = { 0, 1, 2 };
+		glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
+		glBindVertexArray(0);
 	}
 
 	Application::~Application()
@@ -32,18 +56,21 @@ namespace Gem
 	{
 		while (m_Running)
 		{
-			glClearColor(1, 0, 1, 1);
+			glClearColor(0.1f, 0.1f, 0.1f, 1);
 			glClear(GL_COLOR_BUFFER_BIT);
+
+			glBindVertexArray(m_VertexArray);
+			glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_INT, nullptr);
 
 			// 渲染器层将从前到后，事件层将从后到前
 			for (Layer* layer : m_LayerStack)
 				layer->OnUpdate();
 
 			// ImGui
-			s_ImGuiLayer->Begin();
+			m_ImGuiLayer->Begin();
 			for (Layer* layer : m_LayerStack)
 				layer->OnImGuiRender();
-			s_ImGuiLayer->End();
+			m_ImGuiLayer->End();
 
 			m_Window->OnUpdate();
 		}

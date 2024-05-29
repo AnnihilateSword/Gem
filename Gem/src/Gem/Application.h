@@ -25,18 +25,17 @@ namespace Gem
 		inline Window& GetWindow() { return *m_Window; }
 
 		inline static Application& Get() { return *s_Instance; }
-
-		// 获取 ImGui 当前上下文
-		inline static ImGuiContext* GetImGuiContext() { return s_ImGuiLayer->GetImGuiContext(); }
 	private:
 		bool OnWindowClose(WindowCloseEvent& e);
 
 		std::unique_ptr<Window> m_Window;
 		bool m_Running = true;
 		LayerStack m_LayerStack;
+		ImGuiLayer* m_ImGuiLayer;
+
+		unsigned int m_VertexArray, m_VertexBuffer, m_IndexBuffer;
 	private:
 		static Application* s_Instance;
-		static ImGuiLayer* s_ImGuiLayer;
 	};
 
 	// 在客户端中定义

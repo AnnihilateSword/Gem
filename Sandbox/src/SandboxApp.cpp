@@ -40,9 +40,6 @@ class Sandbox : public Gem::Application
 public:
 	Sandbox()
 	{
-		// 因为 ImGui 生成静态库，然后链接到 Gem，但是 Gem 又生成动态库，会导致 Sandbox 最终出现空指针错误
-		// 这里的解决方法重新设置了 ImGui 上下文
-		ImGui::SetCurrentContext(Application::GetImGuiContext());
 		PushLayer(new ExampleLayer());
 	}
 
