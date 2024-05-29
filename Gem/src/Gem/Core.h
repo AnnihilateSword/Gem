@@ -10,6 +10,10 @@
 	#error Gem only supports Windows!
 #endif
 
+#ifdef GEM_DEBUG
+	#define GEM_ENABLE_ASSERTS
+#endif
+
 #ifdef GEM_ENABLE_ASSERTS
 	#define GEM_ASSERT(x, ...) { if(!(x)) { GEM_ERROR("Assertion Failed: {0}", __VA_ARGS__); __debugbreak(); } }
 	#define GEM_CORE_ASSERT(x, ...) { if(!(x)) { GEM_CORE_ERROR("Assertion Failed: {0}", __VA_ARGS__); __debugbreak(); } }

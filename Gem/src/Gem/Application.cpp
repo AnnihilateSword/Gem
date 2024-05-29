@@ -1,6 +1,7 @@
 #include "gempch.h"
 #include "Application.h"
 
+#include "Input.h"
 #include <GLFW/glfw3.h>
 
 namespace Gem
@@ -31,6 +32,9 @@ namespace Gem
 			// 渲染器层将从前到后，事件层将从后到前
 			for (Layer* layer : m_LayerStack)
 				layer->OnUpdate();
+
+			auto [x, y] = Input::GetMousePosition();
+			GEM_CORE_TRACE("{0}, {1}", x, y);
 
 			m_Window->OnUpdate();
 		}

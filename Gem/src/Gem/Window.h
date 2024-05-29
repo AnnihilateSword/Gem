@@ -40,6 +40,8 @@ namespace Gem
 		virtual void SetVSync(bool enabled) = 0;
 		virtual bool IsVSync() const = 0;
 
+		virtual void* GetNativeWindow() const = 0;
+
 		// 独立于平台的创建窗口函数
 		static Window* Create(const WindowProps& props = WindowProps());
 	};
