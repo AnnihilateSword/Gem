@@ -11,6 +11,8 @@
 #include "Gem/Renderer/Buffer.h"
 #include "Gem/Renderer/VertexArray.h"
 
+#include "Gem/Renderer/OrthographicCamera.h"
+
 namespace Gem
 {
 	class GEM_API Application
@@ -42,6 +44,8 @@ namespace Gem
 
 		std::shared_ptr<Shader> m_BlueShader;
 		std::shared_ptr<VertexArray> m_SquareVA;
+
+		OrthographicCamera m_Camera;
 	private:
 		static Application* s_Instance;
 	};
