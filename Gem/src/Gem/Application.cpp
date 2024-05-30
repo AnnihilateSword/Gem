@@ -5,6 +5,8 @@
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 
+#include "Gem/Renderer/Renderer.h"
+
 namespace Gem
 {
 	Application* Application::s_Instance = nullptr;
@@ -154,19 +156,20 @@ namespace Gem
 	{
 		while (m_Running)
 		{
-			glClearColor(0.1f, 0.1f, 0.1f, 1);
-			glClear(GL_COLOR_BUFFER_BIT);
+			RenderCommand::SetClearColor({ 0.1f, 0.1f, 0.1f, 1.0f });
+			RenderCommand::Clear();
 
 			// Draw Object --------------------------
+
+			Renderer::BeginScene();
+
 			m_BlueShader->Bind();
-			m_SquareVA->Bind();
-			glDrawElements(GL_TRIANGLES, m_SquareVA->GetIndexBuffer()->GetCount(), GL_UNSIGNED_INT, nullptr);
-			m_Shader->Unbind();
+			Renderer::Submit(m_SquareVA);
 
 			m_Shader->Bind();
-			m_VertexArray->Bind();
-			glDrawElements(GL_TRIANGLES, m_VertexArray->GetIndexBuffer()->GetCount(), GL_UNSIGNED_INT, nullptr);
-			m_Shader->Unbind();
+			Renderer::Submit(m_VertexArray);
+
+			Renderer::EndScene();
 
 			// 渲染器层将从前到后，事件层将从后到前
 			for (Layer* layer : m_LayerStack)
