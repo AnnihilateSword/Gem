@@ -38,7 +38,7 @@ namespace Gem
 			for (Layer* layer : m_LayerStack)
 				layer->OnUpdate(timestep);
 
-			// ImGui
+			// ImGui (has show demo window)
 			m_ImGuiLayer->Begin();
 			for (Layer* layer : m_LayerStack)
 				layer->OnImGuiRender();

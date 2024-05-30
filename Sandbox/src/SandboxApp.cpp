@@ -1,7 +1,11 @@
 #include <Gem.h>
 
-#include <glm/gtc/matrix_transform.hpp>
+#include "Platform/OpenGL/OpenGLShader.h"
+
 #include "imgui.h"
+
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
 
 class ExampleLayer : public Gem::Layer
 {
@@ -69,6 +73,7 @@ public:
 
 			out vec3 v_Position;
 			out vec4 v_Color;
+
 			void main()
 			{
 				v_Position = a_Position;
@@ -90,9 +95,9 @@ public:
 			}
 		)";
 
-		m_Shader.reset(new Gem::Shader(vertexSrc, fragmentSrc));
+		m_Shader.reset(Gem::Shader::Create(vertexSrc, fragmentSrc));
 
-		std::string blueShaderVertexSrc = R"(
+		std::string flatColorShaderVertexSrc = R"(
 			#version 330 core
 			
 			layout(location = 0) in vec3 a_Position;
@@ -101,6 +106,7 @@ public:
 			uniform mat4 u_Transform;
 
 			out vec3 v_Position;
+
 			void main()
 			{
 				v_Position = a_Position;
@@ -108,48 +114,38 @@ public:
 			}
 		)";
 
-		std::string blueShaderFragmentSrc = R"(
+		std::string flatColorShaderFragmentSrc = R"(
 			#version 330 core
 			
 			layout(location = 0) out vec4 color;
+
 			in vec3 v_Position;
+
+			uniform vec3 u_Color;		
+
 			void main()
 			{
-				color = vec4(0.2, 0.3, 0.8, 1.0);
+				color = vec4(u_Color, 1.0);
 			}
 		)";
 
-		m_BlueShader.reset(new Gem::Shader(blueShaderVertexSrc, blueShaderFragmentSrc));
+		m_FlatColorShader.reset(Gem::Shader::Create(flatColorShaderVertexSrc, flatColorShaderFragmentSrc));
 	}
 
 	void OnUpdate(Gem::Timestep ts) override
 	{
 		GEM_INFO("Delta Time: {0}s ({1}ms)", ts.GetSeconds(), ts.GetMilliseconds());
 
+		// camera
 		if (Gem::Input::IsKeyPressed(GEM_KEY_LEFT))
-			m_CameraPosition.x += m_CameraMoveSpeed * ts;
-		else if (Gem::Input::IsKeyPressed(GEM_KEY_RIGHT))
 			m_CameraPosition.x -= m_CameraMoveSpeed * ts;
+		else if (Gem::Input::IsKeyPressed(GEM_KEY_RIGHT))
+			m_CameraPosition.x += m_CameraMoveSpeed * ts;
 
 		if (Gem::Input::IsKeyPressed(GEM_KEY_UP))
-			m_CameraPosition.y -= m_CameraMoveSpeed * ts;
-		else if (Gem::Input::IsKeyPressed(GEM_KEY_DOWN))
 			m_CameraPosition.y += m_CameraMoveSpeed * ts;
-
-		if (Gem::Input::IsKeyPressed(GEM_KEY_A))
-			m_CameraRotation += m_CameraRotationSpeed * ts;
-		else if (Gem::Input::IsKeyPressed(GEM_KEY_D))
-			m_CameraRotation -= m_CameraRotationSpeed * ts;
-
-		if (Gem::Input::IsKeyPressed(GEM_KEY_J))
-			m_SquarePosition.x -= m_CameraMoveSpeed * ts;
-		else if (Gem::Input::IsKeyPressed(GEM_KEY_L))
-			m_SquarePosition.x += m_CameraMoveSpeed * ts;
-
-		if (Gem::Input::IsKeyPressed(GEM_KEY_I))
-			m_SquarePosition.y += m_CameraMoveSpeed * ts;
-		else if (Gem::Input::IsKeyPressed(GEM_KEY_K))
-			m_SquarePosition.y -= m_CameraMoveSpeed * ts;
+		else if (Gem::Input::IsKeyPressed(GEM_KEY_DOWN))
+			m_CameraPosition.y -= m_CameraMoveSpeed * ts;
 
 		// Render
 		Gem::RenderCommand::SetClearColor({ 0.1f, 0.1f, 0.1f, 1.0f });
@@ -161,9 +157,21 @@ public:
 
 		Gem::Renderer::BeginScene(m_Camera);
 
-		glm::mat4 transform = glm::translate(glm::mat4(1.0f), m_SquarePosition);
+		glm::mat4 scale = glm::scale(glm::mat4(1.0f), glm::vec3(0.1f));
 
-		Gem::Renderer::Submit(m_BlueShader, m_SquareVA, transform);
+		std::dynamic_pointer_cast<Gem::OpenGLShader>(m_FlatColorShader)->Bind();
+		std::dynamic_pointer_cast<Gem::OpenGLShader>(m_FlatColorShader)->UploadUniformFloat3("u_Color", m_SquareColor);
+
+		for (int y = 0; y < 20; y++)
+		{
+			for (int x = 0; x < 20; x++)
+			{
+				glm::vec3 pos(x * 0.11f, y * 0.11f, 0.0f);
+				glm::mat4 transform = glm::translate(glm::mat4(1.0f), pos) * scale;
+				Gem::Renderer::Submit(m_FlatColorShader, m_SquareVA, transform);
+			}
+		}
+
 		Gem::Renderer::Submit(m_Shader, m_VertexArray);
 
 		Gem::Renderer::EndScene();
@@ -171,6 +179,9 @@ public:
 
 	virtual void OnImGuiRender() override
 	{
+		ImGui::Begin("Settings");
+		ImGui::ColorEdit3("Square Color", glm::value_ptr(m_SquareColor));
+		ImGui::End();
 	}
 
 	void OnEvent(Gem::Event& e) override
@@ -181,7 +192,7 @@ private:
 	std::shared_ptr<Gem::Shader> m_Shader;
 	std::shared_ptr<Gem::VertexArray> m_VertexArray;
 
-	std::shared_ptr<Gem::Shader> m_BlueShader;
+	std::shared_ptr<Gem::Shader> m_FlatColorShader;
 	std::shared_ptr<Gem::VertexArray> m_SquareVA;
 
 	Gem::OrthographicCamera m_Camera;
@@ -191,7 +202,7 @@ private:
 	float m_CameraMoveSpeed = 5.0f;
 	float m_CameraRotationSpeed = 180.0f;
 
-	glm::vec3 m_SquarePosition{ 0.0f, 0.0f, 0.0f };
+	glm::vec3 m_SquareColor = { 0.2f, 0.3f, 0.8f };
 };
 
 class Sandbox : public Gem::Application
