@@ -10,7 +10,9 @@ elseif()
 endif()
 
 # 递归查找 src 目录下所有 .cpp 和 .h
-file(GLOB_RECURSE GemSources src/*.cpp src/*.h)
+file(GLOB_RECURSE GemSources src/*.cpp src/*.h
+vendor/stb_image/stb_image.h
+vendor/stb_image/stb_image.cpp)
 
 # 生成静态库
 add_library(${PROJECT_NAME} STATIC ${GemSources})
@@ -52,6 +54,7 @@ ${CMAKE_CURRENT_LIST_DIR}/vendor/glfw/include
 ${CMAKE_CURRENT_LIST_DIR}/vendor/glad/include
 ${CMAKE_CURRENT_LIST_DIR}/vendor/imgui
 ${CMAKE_CURRENT_LIST_DIR}/vendor/glm
+${CMAKE_CURRENT_LIST_DIR}/vendor/stb_image
 )
 
 # 添加子目录

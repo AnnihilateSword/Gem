@@ -43,7 +43,7 @@ namespace Gem
 		style.ScaleAllSizes(1.0f);
 
 		// Load Font
-		io.Fonts->AddFontFromFileTTF("../res/fonts/Roboto-Regular.ttf", 22);
+		io.Fonts->AddFontFromFileTTF("../assets/fonts/Roboto-Regular.ttf", 22);
 
 		if (io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable)
 		{

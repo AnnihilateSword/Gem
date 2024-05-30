@@ -19,6 +19,7 @@
 
 #include "Gem/Renderer/Buffer.h"
 #include "Gem/Renderer/Shader.h"
+#include "Gem/Renderer/Texture.h"
 #include "Gem/Renderer/VertexArray.h"
 
 #include "Gem/Renderer/OrthographicCamera.h"

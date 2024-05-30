@@ -11,7 +11,7 @@ class ExampleLayer : public Gem::Layer
 {
 public:
 	ExampleLayer()
-		: Layer("Example"), m_Camera(-3.2f, 3.2f, -1.8f, 1.8f)
+		: Layer("Example"), m_Camera(-1.6f, 1.6f, -0.9f, 0.9f)
 	{
 		// vertexArray (triangle) -------------------------------------------------------
 		m_VertexArray.reset(Gem::VertexArray::Create());
@@ -40,18 +40,19 @@ public:
 		// vertex Array (square) --------------------------------------------------------
 		m_SquareVA.reset(Gem::VertexArray::Create());
 
-		float squareVertices[3 * 4] = {
-			-0.5f, -0.5f, 0.0f,
-			 0.5f, -0.5f, 0.0f,
-			 0.5f,  0.5f, 0.0f,
-			-0.5f,  0.5f, 0.0f
+		float squareVertices[5 * 4] = {
+			-0.5f, -0.5f, 0.0f, 0.0f, 0.0f,
+			 0.5f, -0.5f, 0.0f, 1.0f, 0.0f,
+			 0.5f,  0.5f, 0.0f, 1.0f, 1.0f,
+			-0.5f,  0.5f, 0.0f, 0.0f, 1.0f
 		};
 
 		// vertexbuffer
 		Gem::Ref<Gem::VertexBuffer> squareVB;
 		squareVB.reset(Gem::VertexBuffer::Create(squareVertices, sizeof(squareVertices)));
 		squareVB->SetLayout({
-			{ Gem::ShaderDataType::Float3, "a_Position" }
+			{ Gem::ShaderDataType::Float3, "a_Position" },
+			{ Gem::ShaderDataType::Float2, "a_Texture" }
 			});
 		m_SquareVA->AddVertexBuffer(squareVB);
 
@@ -97,6 +98,7 @@ public:
 
 		m_Shader.reset(Gem::Shader::Create(vertexSrc, fragmentSrc));
 
+		// Square
 		std::string flatColorShaderVertexSrc = R"(
 			#version 330 core
 			
@@ -120,8 +122,8 @@ public:
 			layout(location = 0) out vec4 color;
 
 			in vec3 v_Position;
-
-			uniform vec3 u_Color;		
+			
+			uniform vec3 u_Color;
 
 			void main()
 			{
@@ -130,6 +132,47 @@ public:
 		)";
 
 		m_FlatColorShader.reset(Gem::Shader::Create(flatColorShaderVertexSrc, flatColorShaderFragmentSrc));
+
+		// Texture Square
+		std::string textureShaderVertexSrc = R"(
+			#version 330 core
+			
+			layout(location = 0) in vec3 a_Position;
+			layout(location = 1) in vec2 a_TexCoord;
+
+			uniform mat4 u_ViewProjection;
+			uniform mat4 u_Transform;
+
+			out vec2 v_TexCoord;
+
+			void main()
+			{
+				v_TexCoord = a_TexCoord;
+				gl_Position = u_ViewProjection * u_Transform * vec4(a_Position, 1.0);	
+			}
+		)";
+
+		std::string textureShaderFragmentSrc = R"(
+			#version 330 core
+			
+			layout(location = 0) out vec4 color;
+
+			in vec2 v_TexCoord;
+			
+			uniform sampler2D u_Texture;
+
+			void main()
+			{
+				color = texture(u_Texture, v_TexCoord);
+			}
+		)";
+
+		m_TextureShader.reset(Gem::Shader::Create(textureShaderVertexSrc, textureShaderFragmentSrc));
+
+		m_Texture = Gem::Texture2D::Create("assets/textures/Checkerboard.png");
+
+		std::dynamic_pointer_cast<Gem::OpenGLShader>(m_TextureShader)->Bind();
+		std::dynamic_pointer_cast<Gem::OpenGLShader>(m_TextureShader)->UploadUniformInt("u_Texture", 0);
 	}
 
 	void OnUpdate(Gem::Timestep ts) override
@@ -172,7 +215,11 @@ public:
 			}
 		}
 
-		Gem::Renderer::Submit(m_Shader, m_VertexArray);
+		m_Texture->Bind(0);
+		Gem::Renderer::Submit(m_TextureShader, m_SquareVA, glm::scale(glm::mat4(1.0f), glm::vec3(1.5f)));
+
+		// Triangle
+		//Gem::Renderer::Submit(m_Shader, m_VertexArray);
 
 		Gem::Renderer::EndScene();
 	}
@@ -192,8 +239,10 @@ private:
 	Gem::Ref<Gem::Shader> m_Shader;
 	Gem::Ref<Gem::VertexArray> m_VertexArray;
 
-	Gem::Ref<Gem::Shader> m_FlatColorShader;
+	Gem::Ref<Gem::Shader> m_FlatColorShader, m_TextureShader;
 	Gem::Ref<Gem::VertexArray> m_SquareVA;
+
+	Gem::Ref<Gem::Texture2D> m_Texture;
 
 	Gem::OrthographicCamera m_Camera;
 
