@@ -6,12 +6,6 @@
 
 #include "Gem/LayerStack.h"
 #include "Gem/ImGui/ImGuiLayer.h"
-#include "Gem/Renderer/Shader.h"
-
-#include "Gem/Renderer/Buffer.h"
-#include "Gem/Renderer/VertexArray.h"
-
-#include "Gem/Renderer/OrthographicCamera.h"
 
 namespace Gem
 {
@@ -34,18 +28,13 @@ namespace Gem
 	private:
 		bool OnWindowClose(WindowCloseEvent& e);
 
+	private:
 		std::unique_ptr<Window> m_Window;
 		bool m_Running = true;
 		LayerStack m_LayerStack;
 		ImGuiLayer* m_ImGuiLayer;
 
-		std::shared_ptr<Shader> m_Shader;
-		std::shared_ptr<VertexArray> m_VertexArray;
-
-		std::shared_ptr<Shader> m_BlueShader;
-		std::shared_ptr<VertexArray> m_SquareVA;
-
-		OrthographicCamera m_Camera;
+		float m_LastFrameTime{ 0.0f };
 	private:
 		static Application* s_Instance;
 	};
