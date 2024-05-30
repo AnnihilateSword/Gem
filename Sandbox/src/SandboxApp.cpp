@@ -23,7 +23,7 @@ public:
 		};
 
 		// vertexbuffer
-		std::shared_ptr<Gem::VertexBuffer> vertexBuffer;
+		Gem::Ref<Gem::VertexBuffer> vertexBuffer;
 		vertexBuffer.reset(Gem::VertexBuffer::Create(vertices, sizeof(vertices)));
 		vertexBuffer->SetLayout({
 			{ Gem::ShaderDataType::Float3, "a_Position" },
@@ -33,7 +33,7 @@ public:
 
 		// indexbuffer
 		unsigned int indices[3] = { 0, 1, 2 };
-		std::shared_ptr<Gem::IndexBuffer> indexBuffer;
+		Gem::Ref<Gem::IndexBuffer> indexBuffer;
 		indexBuffer.reset(Gem::IndexBuffer::Create(indices, sizeof(indices) / sizeof(unsigned int)));
 		m_VertexArray->SetIndexBuffer(indexBuffer);
 
@@ -48,7 +48,7 @@ public:
 		};
 
 		// vertexbuffer
-		std::shared_ptr<Gem::VertexBuffer> squareVB;
+		Gem::Ref<Gem::VertexBuffer> squareVB;
 		squareVB.reset(Gem::VertexBuffer::Create(squareVertices, sizeof(squareVertices)));
 		squareVB->SetLayout({
 			{ Gem::ShaderDataType::Float3, "a_Position" }
@@ -57,7 +57,7 @@ public:
 
 		// indexbuffer
 		uint32_t squareIndices[6] = { 0, 1, 2, 2, 3, 0 };
-		std::shared_ptr<Gem::IndexBuffer> squareIB;
+		Gem::Ref<Gem::IndexBuffer> squareIB;
 		squareIB.reset(Gem::IndexBuffer::Create(squareIndices, sizeof(squareIndices) / sizeof(uint32_t)));
 		m_SquareVA->SetIndexBuffer(squareIB);
 
@@ -189,11 +189,11 @@ public:
 	}
 
 private:
-	std::shared_ptr<Gem::Shader> m_Shader;
-	std::shared_ptr<Gem::VertexArray> m_VertexArray;
+	Gem::Ref<Gem::Shader> m_Shader;
+	Gem::Ref<Gem::VertexArray> m_VertexArray;
 
-	std::shared_ptr<Gem::Shader> m_FlatColorShader;
-	std::shared_ptr<Gem::VertexArray> m_SquareVA;
+	Gem::Ref<Gem::Shader> m_FlatColorShader;
+	Gem::Ref<Gem::VertexArray> m_SquareVA;
 
 	Gem::OrthographicCamera m_Camera;
 

@@ -50,7 +50,7 @@ namespace Gem
 	//
 	// 这个函数还不完善，比如尝试将多个 VBO 绑定到 VAO，只会绘制最后一个绑定的 VBO，那么这个 m_VertexBuffers 就没意义了
 	//
-	void OpenGLVertexArray::AddVertexBuffer(const std::shared_ptr<VertexBuffer>& vertexBuffer)
+	void OpenGLVertexArray::AddVertexBuffer(const Gem::Ref<VertexBuffer>& vertexBuffer)
 	{
 		GEM_CORE_ASSERT(vertexBuffer->GetLayout().GetElements().size(), "Vertex Buffer has no layout!");
 
@@ -74,7 +74,7 @@ namespace Gem
 		m_VertexBuffers.push_back(vertexBuffer);
 	}
 
-	void OpenGLVertexArray::SetIndexBuffer(const std::shared_ptr<IndexBuffer>& indexBuffer)
+	void OpenGLVertexArray::SetIndexBuffer(const Gem::Ref<IndexBuffer>& indexBuffer)
 	{
 		glBindVertexArray(m_RendererID);
 		indexBuffer->Bind();
