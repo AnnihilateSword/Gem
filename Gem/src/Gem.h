@@ -10,6 +10,7 @@
 #include "Gem/Input.h"
 #include "Gem/KeyCodes.h"
 #include "Gem/MouseButtonCodes.h"
+#include "Gem/OrthographicCameraController.h"
 
 #include "Gem/ImGui/ImGuiLayer.h"
 
