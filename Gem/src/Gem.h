@@ -25,7 +25,3 @@
 
 #include "Gem/Renderer/OrthographicCamera.h"
 // -----------------------------------
-
-// ---Èë¿Úµã---------------------
-#include "Gem/Core/EntryPoint.h"
-//------------------------------

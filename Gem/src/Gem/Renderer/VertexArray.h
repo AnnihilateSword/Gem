@@ -20,7 +20,7 @@ namespace Gem
 		virtual const std::vector<Gem::Ref<VertexBuffer>>& GetVertexBuffers() const = 0;
 		virtual const Gem::Ref<IndexBuffer>& GetIndexBuffer() const = 0;
 
-		static VertexArray* Create();
+		static Ref<VertexArray> Create();
 	};
 
 }

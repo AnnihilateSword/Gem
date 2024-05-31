@@ -27,7 +27,8 @@ endif()
 
 # 添加预定义
 if (WIN32)
-add_compile_definitions(GEM_PLATFORM_WINDOWS
+add_compile_definitions(
+#GEM_PLATFORM_WINDOWS
 # 抑制警告
 #_SILENCE_STDEXT_ARR_ITERS_DEPRECATION_WARNING
 )
