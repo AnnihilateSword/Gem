@@ -36,9 +36,12 @@ namespace Gem
 			Timestep timestep = time - m_LastFrameTime;
 			m_LastFrameTime = time;
 
-			// 渲染器层将从前到后，事件层将从后到前
-			for (Layer* layer : m_LayerStack)
-				layer->OnUpdate(timestep);
+			if (!m_Minimized)
+			{
+				// 渲染器层将从前到后，事件层将从后到前
+				for (Layer* layer : m_LayerStack)
+					layer->OnUpdate(timestep);
+			}
 
 			// ImGui (has show demo window)
 			m_ImGuiLayer->Begin();
@@ -54,6 +57,7 @@ namespace Gem
 	{
 		EventDispatcher dispatcher(e);
 		dispatcher.Dispatch<WindowCloseEvent>(GEM_BIND_EVENT_FN(Application::OnWindowClose));
+		dispatcher.Dispatch<WindowResizeEvent>(GEM_BIND_EVENT_FN(Application::OnWindowResize));
 
 		// 渲染器层将从前到后，事件层将从后到前
 		for (auto it = m_LayerStack.end(); it != m_LayerStack.begin();)
@@ -78,6 +82,20 @@ namespace Gem
 	{
 		m_Running = false;
 		return true;
+	}
+
+	bool Application::OnWindowResize(WindowResizeEvent& e)
+	{
+		if (e.GetWidth() == 0 || e.GetHeight() == 0)
+		{
+			m_Minimized = true;
+			return false;
+		}
+
+		m_Minimized = false;
+		Renderer::OnWindowResize(e.GetWidth(), e.GetHeight());
+
+		return false;
 	}
 
 }
