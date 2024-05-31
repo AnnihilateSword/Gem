@@ -210,7 +210,10 @@ namespace Gem
 		}
 
 		for (auto id : glShaderIDs)
+		{
 			glDetachShader(program, id);
+			glDeleteShader(program);
+		}
 	}
 
 }
