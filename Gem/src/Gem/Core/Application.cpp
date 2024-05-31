@@ -22,7 +22,7 @@ namespace Gem
 
 		Renderer::Init();
 
-		// ImGui
+		// ImGui (has show demo window)
 		m_ImGuiLayer = new ImGuiLayer();
 		// ÔÚÎ²²¿²åÈë
 		PushOverlay(m_ImGuiLayer);
@@ -43,7 +43,7 @@ namespace Gem
 					layer->OnUpdate(timestep);
 			}
 
-			// ImGui (has show demo window)
+			// ImGui
 			m_ImGuiLayer->Begin();
 			for (Layer* layer : m_LayerStack)
 				layer->OnImGuiRender();

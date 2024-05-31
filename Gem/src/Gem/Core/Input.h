@@ -28,7 +28,7 @@ namespace Gem
 		virtual float GetMouseYImpl() = 0;
 	private:
 		// 根据不同平台实现，例如会在 WindowsInput.cpp 中创建
-		static Input* s_Instance;
+		static Scope<Input> s_Instance;
 	};
 
 }
