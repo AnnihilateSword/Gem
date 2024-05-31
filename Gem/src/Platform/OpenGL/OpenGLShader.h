@@ -5,10 +5,10 @@
 
 namespace Gem
 {
-
 	class OpenGLShader : public Shader
 	{
 	public:
+		OpenGLShader(const std::string& filepath);
 		OpenGLShader(const std::string& vertexSrc, const std::string& fragmentSrc);
 		virtual ~OpenGLShader();
 
@@ -25,7 +25,10 @@ namespace Gem
 		void UploadUniformMat3(const std::string& name, const glm::mat3& matrix);
 		void UploadUniformMat4(const std::string& name, const glm::mat4& matrix);
 	private:
+		std::string ReadFile(const std::string& filepath);
+		std::unordered_map<unsigned int, std::string> PreProcess(const std::string& source);
+		void Compile(const std::unordered_map<unsigned int, std::string>& shaderSources);
+	private:
 		uint32_t m_RendererID;
 	};
-
 }
