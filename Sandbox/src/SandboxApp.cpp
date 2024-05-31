@@ -96,7 +96,7 @@ public:
 			}
 		)";
 
-		m_Shader.reset(Gem::Shader::Create(vertexSrc, fragmentSrc));
+		m_Shader = Gem::Shader::Create("VertexPosColor", vertexSrc, fragmentSrc);
 
 		// Square
 		std::string flatColorShaderVertexSrc = R"(
@@ -131,16 +131,16 @@ public:
 			}
 		)";
 
-		m_FlatColorShader.reset(Gem::Shader::Create(flatColorShaderVertexSrc, flatColorShaderFragmentSrc));
+		m_FlatColorShader = Gem::Shader::Create("FlatColor", flatColorShaderVertexSrc, flatColorShaderFragmentSrc);
 
 		// Texture Square
-		m_TextureShader.reset(Gem::Shader::Create("assets/shaders/Texture.glsl"));
+		auto textureShader = m_ShaderLibrary.Load("assets/shaders/Texture.glsl");
 
 		m_Texture = Gem::Texture2D::Create("assets/textures/Checkerboard.png");
 		m_TranslucentTexture = Gem::Texture2D::Create("assets/textures/awesomeface.png");
 
-		std::dynamic_pointer_cast<Gem::OpenGLShader>(m_TextureShader)->Bind();
-		std::dynamic_pointer_cast<Gem::OpenGLShader>(m_TextureShader)->UploadUniformInt("u_Texture", 0);
+		std::dynamic_pointer_cast<Gem::OpenGLShader>(textureShader)->Bind();
+		std::dynamic_pointer_cast<Gem::OpenGLShader>(textureShader)->UploadUniformInt("u_Texture", 0);
 	}
 
 	void OnUpdate(Gem::Timestep ts) override
@@ -183,10 +183,12 @@ public:
 			}
 		}
 
+		auto textureShader = m_ShaderLibrary.Get("Texture");
+
 		m_Texture->Bind(0);
-		Gem::Renderer::Submit(m_TextureShader, m_SquareVA, glm::scale(glm::mat4(1.0f), glm::vec3(1.5f)));
+		Gem::Renderer::Submit(textureShader, m_SquareVA, glm::scale(glm::mat4(1.0f), glm::vec3(1.5f)));
 		m_TranslucentTexture->Bind(0);
-		Gem::Renderer::Submit(m_TextureShader, m_SquareVA, glm::scale(glm::mat4(1.0f), glm::vec3(1.5f)));
+		Gem::Renderer::Submit(textureShader, m_SquareVA, glm::scale(glm::mat4(1.0f), glm::vec3(1.5f)));
 
 		// Triangle
 		//Gem::Renderer::Submit(m_Shader, m_VertexArray);
@@ -206,10 +208,11 @@ public:
 	}
 
 private:
+	Gem::ShaderLibrary m_ShaderLibrary;
 	Gem::Ref<Gem::Shader> m_Shader;
 	Gem::Ref<Gem::VertexArray> m_VertexArray;
 
-	Gem::Ref<Gem::Shader> m_FlatColorShader, m_TextureShader;
+	Gem::Ref<Gem::Shader> m_FlatColorShader;
 	Gem::Ref<Gem::VertexArray> m_SquareVA;
 
 	Gem::Ref<Gem::Texture2D> m_Texture, m_TranslucentTexture;
