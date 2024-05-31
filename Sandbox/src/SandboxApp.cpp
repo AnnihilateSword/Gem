@@ -170,6 +170,7 @@ public:
 		m_TextureShader.reset(Gem::Shader::Create(textureShaderVertexSrc, textureShaderFragmentSrc));
 
 		m_Texture = Gem::Texture2D::Create("assets/textures/Checkerboard.png");
+		m_TranslucentTexture = Gem::Texture2D::Create("assets/textures/awesomeface.png");
 
 		std::dynamic_pointer_cast<Gem::OpenGLShader>(m_TextureShader)->Bind();
 		std::dynamic_pointer_cast<Gem::OpenGLShader>(m_TextureShader)->UploadUniformInt("u_Texture", 0);
@@ -217,6 +218,8 @@ public:
 
 		m_Texture->Bind(0);
 		Gem::Renderer::Submit(m_TextureShader, m_SquareVA, glm::scale(glm::mat4(1.0f), glm::vec3(1.5f)));
+		m_TranslucentTexture->Bind(0);
+		Gem::Renderer::Submit(m_TextureShader, m_SquareVA, glm::scale(glm::mat4(1.0f), glm::vec3(1.5f)));
 
 		// Triangle
 		//Gem::Renderer::Submit(m_Shader, m_VertexArray);
@@ -242,7 +245,7 @@ private:
 	Gem::Ref<Gem::Shader> m_FlatColorShader, m_TextureShader;
 	Gem::Ref<Gem::VertexArray> m_SquareVA;
 
-	Gem::Ref<Gem::Texture2D> m_Texture;
+	Gem::Ref<Gem::Texture2D> m_Texture, m_TranslucentTexture;
 
 	Gem::OrthographicCamera m_Camera;
 

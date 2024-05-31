@@ -20,6 +20,8 @@ namespace Gem
 		// 这里绑定事件发生时进行处理的函数为 OnEvent（比如按键，鼠标点击，窗口等事件）
 		m_Window->SetEventCallback(GEM_BIND_EVENT_FN(Application::OnEvent));
 
+		Renderer::Init();
+
 		// ImGui
 		m_ImGuiLayer = new ImGuiLayer();
 		// 在尾部插入
