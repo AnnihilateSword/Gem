@@ -7,6 +7,22 @@
 
 namespace Gem
 {
+	OpenGLTexture2D::OpenGLTexture2D(unsigned int width, unsigned int height)
+		: m_Width(width), m_Height(height)
+	{
+		m_InternalFormat = GL_RGBA8;
+		m_DataFormat = GL_RGBA;
+
+		glCreateTextures(GL_TEXTURE_2D, 1, &m_RendererID);
+		glTextureStorage2D(m_RendererID, 1, m_InternalFormat, m_Width, m_Height);
+
+		glTextureParameteri(m_RendererID, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+		glTextureParameteri(m_RendererID, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+
+		glTextureParameteri(m_RendererID, GL_TEXTURE_WRAP_S, GL_REPEAT);
+		glTextureParameteri(m_RendererID, GL_TEXTURE_WRAP_T, GL_REPEAT);
+	}
+
 	OpenGLTexture2D::OpenGLTexture2D(const std::string& path)
 		: m_Path(path)
 	{
@@ -20,25 +36,25 @@ namespace Gem
 		unsigned int internalFormat = 0, dataFormat = 0;
 		if (channels == 4)
 		{
-			internalFormat = GL_RGBA8;
-			dataFormat = GL_RGBA;
+			m_InternalFormat = GL_RGBA8;
+			m_DataFormat = GL_RGBA;
 		}
-		else
+		else if (channels == 3)
 		{
-			internalFormat = GL_RGB8;
-			dataFormat = GL_RGB;
+			m_InternalFormat = GL_RGB8;
+			m_DataFormat = GL_RGB;
 		}
 
 		glCreateTextures(GL_TEXTURE_2D, 1, &m_RendererID);
-		glTextureStorage2D(m_RendererID, 1, internalFormat, m_Width, m_Height);
+		glTextureStorage2D(m_RendererID, 1, m_InternalFormat, m_Width, m_Height);
 
 		glTextureParameteri(m_RendererID, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 		glTextureParameteri(m_RendererID, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 
-		glTextureParameteri(m_RendererID, GL_TEXTURE_WRAP_S, dataFormat == GL_RGBA ? GL_CLAMP_TO_EDGE : GL_REPEAT);
-		glTextureParameteri(m_RendererID, GL_TEXTURE_WRAP_T, dataFormat == GL_RGBA ? GL_CLAMP_TO_EDGE : GL_REPEAT);
+		glTextureParameteri(m_RendererID, GL_TEXTURE_WRAP_S, m_DataFormat == GL_RGBA ? GL_CLAMP_TO_EDGE : GL_REPEAT);
+		glTextureParameteri(m_RendererID, GL_TEXTURE_WRAP_T, m_DataFormat == GL_RGBA ? GL_CLAMP_TO_EDGE : GL_REPEAT);
 
-		glTextureSubImage2D(m_RendererID, 0, 0, 0, m_Width, m_Height, dataFormat, GL_UNSIGNED_BYTE, data);
+		glTextureSubImage2D(m_RendererID, 0, 0, 0, m_Width, m_Height, m_DataFormat, GL_UNSIGNED_BYTE, data);
 
 		stbi_image_free(data);
 	}
@@ -46,6 +62,14 @@ namespace Gem
 	OpenGLTexture2D::~OpenGLTexture2D()
 	{
 		glDeleteTextures(1, &m_RendererID);
+	}
+
+	void OpenGLTexture2D::SetData(void* data, unsigned int size)
+	{
+		// bit per pixel
+		unsigned int bpp = m_DataFormat == GL_RGBA ? 4 : 3;
+		GEM_CORE_ASSERT(size == m_Width * m_Height * bpp, "Data must be entire texture!");
+		glTextureSubImage2D(m_RendererID, 0, 0, 0, m_Width, m_Height, m_DataFormat, GL_UNSIGNED_BYTE, data);
 	}
 
 	void OpenGLTexture2D::Bind(uint32_t slot) const
