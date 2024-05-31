@@ -7,7 +7,7 @@
 
 #include "GLFW/glfw3.h"
 
-#include "Gem/Application.h"
+#include "Gem/Core/Application.h"
 
 namespace Gem
 {

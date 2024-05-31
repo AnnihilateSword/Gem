@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Gem/Layer.h"
+#include "Gem/Core/Layer.h"
 
 #include "Gem/Events/ApplicationEvent.h"
 #include "Gem/Events/KeyEvent.h"

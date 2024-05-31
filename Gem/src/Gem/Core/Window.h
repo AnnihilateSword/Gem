@@ -2,7 +2,7 @@
 
 #include "gempch.h"
 
-#include "Gem/Core.h"
+#include "Gem/Core/Core.h"
 #include "Gem/Events/Event.h"
 
 namespace Gem

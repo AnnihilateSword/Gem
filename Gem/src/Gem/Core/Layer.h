@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Gem/Core.h"
+#include "Gem/Core/Core.h"
 #include "Gem/Events/Event.h"
 #include "Gem/Core/Timestep.h"
 

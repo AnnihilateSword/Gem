@@ -1,5 +1,5 @@
 #pragma once
-#include "Gem/Core.h"
+#include "Gem/Core/Core.h"
 
 #include "RenderCommand.h"
 #include "OrthographicCamera.h"

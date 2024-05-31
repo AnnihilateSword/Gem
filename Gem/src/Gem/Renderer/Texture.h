@@ -2,7 +2,7 @@
 
 #include <string>
 
-#include "Gem/Core.h"
+#include "Gem/Core/Core.h"
 
 namespace Gem
 {

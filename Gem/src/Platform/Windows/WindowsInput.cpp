@@ -1,7 +1,7 @@
 #include "gempch.h"
 #include "WindowsInput.h"
 
-#include "Gem/Application.h"
+#include "Gem/Core/Application.h"
 #include <GLFW/glfw3.h>
 
 namespace Gem

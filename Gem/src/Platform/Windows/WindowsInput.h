@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Gem/Input.h"
+#include "Gem/Core/Input.h"
 
 namespace Gem
 {

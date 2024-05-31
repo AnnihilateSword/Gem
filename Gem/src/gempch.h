@@ -13,7 +13,7 @@
 #include <unordered_map>
 #include <unordered_set>
 
-#include "Gem/Log.h"
+#include "Gem/Core/Log.h"
 
 #ifdef GEM_PLATFORM_WINDOWS
 	#include <Windows.h>

@@ -1,8 +1,8 @@
 #include "gempch.h"
 #include "OrthographicCameraController.h"
 
-#include "Gem/Input.h"
-#include "Gem/KeyCodes.h"
+#include "Gem/Core/Input.h"
+#include "Gem/Core/KeyCodes.h"
 
 namespace Gem
 {
@@ -58,6 +58,7 @@ namespace Gem
 
 	bool OrthographicCameraController::OnWindowResized(WindowResizeEvent& e)
 	{
+		// 窗口大小调节时更新投影矩阵
 		m_AspectRatio = (float)e.GetWidth() / (float)e.GetHeight();
 		m_Camera.SetProjection(-m_AspectRatio * m_ZoomLevel, m_AspectRatio * m_ZoomLevel, -m_ZoomLevel, m_ZoomLevel);
 		return false;

@@ -1,16 +1,16 @@
 #pragma once
 // 由客户端包含，可以看到在 Gem 文件夹之外
 
-#include "Gem/Application.h"
-#include "Gem/Layer.h"
-#include "Gem/Log.h"
+#include "Gem/Core/Application.h"
+#include "Gem/Core/Layer.h"
+#include "Gem/Core/Log.h"
 
 #include "Gem/Core/Timestep.h"
 
-#include "Gem/Input.h"
-#include "Gem/KeyCodes.h"
-#include "Gem/MouseButtonCodes.h"
-#include "Gem/OrthographicCameraController.h"
+#include "Gem/Core/Input.h"
+#include "Gem/Core/KeyCodes.h"
+#include "Gem/Core/MouseButtonCodes.h"
+#include "Gem/Renderer/OrthographicCameraController.h"
 
 #include "Gem/ImGui/ImGuiLayer.h"
 
@@ -26,6 +26,6 @@
 #include "Gem/Renderer/OrthographicCamera.h"
 // -----------------------------------
 
-// ---入口点-----------------
-#include "Gem/EntryPoint.h"
-//--------------------------
+// ---入口点---------------------
+#include "Gem/Core/EntryPoint.h"
+//------------------------------

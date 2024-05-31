@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Gem/Core.h"
+#include "Gem/Core/Core.h"
 #include <string>
 #include <unordered_map>
 

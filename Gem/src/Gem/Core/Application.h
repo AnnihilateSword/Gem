@@ -4,7 +4,7 @@
 #include "Window.h"
 #include "Gem/Events/ApplicationEvent.h"
 
-#include "Gem/LayerStack.h"
+#include "Gem/Core/LayerStack.h"
 #include "Gem/ImGui/ImGuiLayer.h"
 
 namespace Gem
