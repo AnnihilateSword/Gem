@@ -16,6 +16,7 @@
 
 // ---Renderer------------------------
 #include "Gem/Renderer/Renderer.h"
+#include "Gem/Renderer/Renderer2D.h"
 #include "Gem/Renderer/RenderCommand.h"
 
 #include "Gem/Renderer/Buffer.h"
