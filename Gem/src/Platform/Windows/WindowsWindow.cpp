@@ -8,6 +8,7 @@
 #include "glad/glad.h"
 #include <GLFW/glfw3.h>
 
+#include "Gem/Renderer/Renderer.h"
 #include "Platform/OpenGL/OpenGLContext.h"
 
 namespace Gem
@@ -56,8 +57,17 @@ namespace Gem
 			glfwSetErrorCallback(GLFWErrorCallback);
 		}
 
-		m_Window = glfwCreateWindow((int)props.Width, (int)props.Height, m_Data.Title.c_str(), nullptr, nullptr);
-		++s_GLFWWindowCount;
+		{
+			GEM_PROFILE_SCOPE("glfwCreateWindow");
+
+			#if defined(GEM_DEBUG)
+				if (Renderer::GetAPI() == RendererAPI::API::OpenGL)
+					glfwWindowHint(GLFW_OPENGL_DEBUG_CONTEXT, GLFW_TRUE);
+			#endif
+
+			m_Window = glfwCreateWindow((int)props.Width, (int)props.Height, m_Data.Title.c_str(), nullptr, nullptr);
+			++s_GLFWWindowCount;
+		}
 
 		// 初始化渲染上下文
 		m_Context = CreateScope<OpenGLContext>(m_Window);
