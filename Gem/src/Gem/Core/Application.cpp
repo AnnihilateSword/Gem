@@ -13,6 +13,8 @@ namespace Gem
 
 	Application::Application()
 	{
+		GEM_PROFILE_FUNCTION();
+
 		GEM_CORE_ASSERT(!s_Instance, "Application already exists!");
 		s_Instance = this;
 
@@ -30,6 +32,8 @@ namespace Gem
 
 	void Application::Run()
 	{
+		GEM_PROFILE_FUNCTION();
+
 		while (m_Running)
 		{
 			float time = (float)glfwGetTime();  // Platform::GetTime()
@@ -38,6 +42,8 @@ namespace Gem
 
 			if (!m_Minimized)
 			{
+				GEM_PROFILE_SCOPE("Laystack OnUpdate");
+
 				// 渲染器层将从前到后，事件层将从后到前
 				for (Layer* layer : m_LayerStack)
 					layer->OnUpdate(timestep);
@@ -45,8 +51,11 @@ namespace Gem
 
 			// ImGui
 			m_ImGuiLayer->Begin();
-			for (Layer* layer : m_LayerStack)
-				layer->OnImGuiRender();
+			{
+				GEM_PROFILE_SCOPE("LayerStack OnImGuiRender");
+				for (Layer* layer : m_LayerStack)
+					layer->OnImGuiRender();
+			}
 			m_ImGuiLayer->End();
 
 			m_Window->OnUpdate();
@@ -55,6 +64,8 @@ namespace Gem
 
 	void Application::OnEvent(Event& e)
 	{
+		GEM_PROFILE_FUNCTION();
+
 		EventDispatcher dispatcher(e);
 		dispatcher.Dispatch<WindowCloseEvent>(GEM_BIND_EVENT_FN(Application::OnWindowClose));
 		dispatcher.Dispatch<WindowResizeEvent>(GEM_BIND_EVENT_FN(Application::OnWindowResize));
@@ -70,11 +81,15 @@ namespace Gem
 
 	void Application::PushLayer(Layer* layer)
 	{
+		GEM_PROFILE_FUNCTION();
+
 		m_LayerStack.PushLayer(layer);
 	}
 
 	void Application::PushOverlay(Layer* layer)
 	{
+		GEM_PROFILE_FUNCTION();
+
 		m_LayerStack.PushOverlay(layer);
 	}
 
@@ -86,6 +101,8 @@ namespace Gem
 
 	bool Application::OnWindowResize(WindowResizeEvent& e)
 	{
+		GEM_PROFILE_FUNCTION();
+
 		if (e.GetWidth() == 0 || e.GetHeight() == 0)
 		{
 			m_Minimized = true;

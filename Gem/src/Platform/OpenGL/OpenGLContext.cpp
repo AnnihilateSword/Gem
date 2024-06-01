@@ -15,6 +15,8 @@ namespace Gem
 
 	void OpenGLContext::Init()
 	{
+		GEM_PROFILE_FUNCTION();
+
 		glfwMakeContextCurrent(m_WindowHandle);
 		// ¼ÓÔØ OpenGL º¯Êý
 		int status = gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
@@ -38,6 +40,8 @@ namespace Gem
 
 	void OpenGLContext::SwapBuffers()
 	{
+		GEM_PROFILE_FUNCTION();
+
 		glfwSwapBuffers(m_WindowHandle);
 	}
 

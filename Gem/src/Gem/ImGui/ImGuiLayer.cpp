@@ -18,6 +18,8 @@ namespace Gem
 
 	void ImGuiLayer::OnAttach()
 	{
+		GEM_PROFILE_FUNCTION();
+
 		// Setup Dear ImGui context
 		IMGUI_CHECKVERSION();
 		ImGui::CreateContext();
@@ -62,6 +64,8 @@ namespace Gem
 	// 暂时没有使用 TODO
 	void ImGuiLayer::OnDetach()
 	{
+		GEM_PROFILE_FUNCTION();
+
 		// Cleanup
 		ImGui_ImplOpenGL3_Shutdown();
 		ImGui_ImplGlfw_Shutdown();
@@ -76,6 +80,8 @@ namespace Gem
 
 	void ImGuiLayer::Begin()
 	{
+		GEM_PROFILE_FUNCTION();
+
 		// Start the Dear ImGui frame
 		ImGui_ImplOpenGL3_NewFrame();
 		ImGui_ImplGlfw_NewFrame();
@@ -84,6 +90,8 @@ namespace Gem
 
 	void ImGuiLayer::End()
 	{
+		GEM_PROFILE_FUNCTION();
+
 		ImGuiIO& io = ImGui::GetIO();
 
 		// Rendering

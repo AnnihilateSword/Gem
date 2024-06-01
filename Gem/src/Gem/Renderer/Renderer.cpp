@@ -10,6 +10,8 @@ namespace Gem
 
 	void Renderer::Init()
 	{
+		GEM_PROFILE_FUNCTION();
+
 		RenderCommand::Init();
 		Renderer2D::Init();
 	}

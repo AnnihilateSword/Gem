@@ -10,6 +10,8 @@ namespace Gem
 	OpenGLTexture2D::OpenGLTexture2D(unsigned int width, unsigned int height)
 		: m_Width(width), m_Height(height)
 	{
+		GEM_PROFILE_FUNCTION();
+
 		m_InternalFormat = GL_RGBA8;
 		m_DataFormat = GL_RGBA;
 
@@ -26,6 +28,8 @@ namespace Gem
 	OpenGLTexture2D::OpenGLTexture2D(const std::string& path)
 		: m_Path(path)
 	{
+		GEM_PROFILE_FUNCTION();
+
 		int width, height, channels;
 		stbi_set_flip_vertically_on_load(1);  // flip
 		unsigned char* data = stbi_load(path.c_str(), &width, &height, &channels, 0);
@@ -61,11 +65,15 @@ namespace Gem
 
 	OpenGLTexture2D::~OpenGLTexture2D()
 	{
+		GEM_PROFILE_FUNCTION();
+
 		glDeleteTextures(1, &m_RendererID);
 	}
 
 	void OpenGLTexture2D::SetData(void* data, unsigned int size)
 	{
+		GEM_PROFILE_FUNCTION();
+
 		// bit per pixel
 		unsigned int bpp = m_DataFormat == GL_RGBA ? 4 : 3;
 		GEM_CORE_ASSERT(size == m_Width * m_Height * bpp, "Data must be entire texture!");
@@ -74,6 +82,8 @@ namespace Gem
 
 	void OpenGLTexture2D::Bind(uint32_t slot) const
 	{
+		GEM_PROFILE_FUNCTION();
+
 		glBindTextureUnit(slot, m_RendererID);
 	}
 }

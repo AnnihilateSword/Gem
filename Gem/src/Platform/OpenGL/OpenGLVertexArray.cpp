@@ -28,22 +28,30 @@ namespace Gem
 
 	OpenGLVertexArray::OpenGLVertexArray()
 	{
+		GEM_PROFILE_FUNCTION();
+
 		glGenVertexArrays(1, &m_RendererID);
 		glBindVertexArray(m_RendererID);
 	}
 
 	OpenGLVertexArray::~OpenGLVertexArray()
 	{
+		GEM_PROFILE_FUNCTION();
+
 		glDeleteVertexArrays(1, &m_RendererID);
 	}
 
 	void OpenGLVertexArray::Bind() const
 	{
+		GEM_PROFILE_FUNCTION();
+
 		glBindVertexArray(m_RendererID);
 	}
 
 	void OpenGLVertexArray::Unbind() const
 	{
+		GEM_PROFILE_FUNCTION();
+
 		glBindVertexArray(0);
 	}
 
@@ -52,6 +60,8 @@ namespace Gem
 	//
 	void OpenGLVertexArray::AddVertexBuffer(const Gem::Ref<VertexBuffer>& vertexBuffer)
 	{
+		GEM_PROFILE_FUNCTION();
+
 		GEM_CORE_ASSERT(vertexBuffer->GetLayout().GetElements().size(), "Vertex Buffer has no layout!");
 
 		glBindVertexArray(m_RendererID);
@@ -76,6 +86,8 @@ namespace Gem
 
 	void OpenGLVertexArray::SetIndexBuffer(const Gem::Ref<IndexBuffer>& indexBuffer)
 	{
+		GEM_PROFILE_FUNCTION();
+
 		glBindVertexArray(m_RendererID);
 		indexBuffer->Bind();
 
