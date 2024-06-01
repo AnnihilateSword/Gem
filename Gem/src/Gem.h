@@ -9,7 +9,7 @@
 
 #include "Gem/Core/Input.h"
 #include "Gem/Core/KeyCodes.h"
-#include "Gem/Core/MouseButtonCodes.h"
+#include "Gem/Core/MouseCodes.h"
 #include "Gem/Renderer/OrthographicCameraController.h"
 
 #include "Gem/ImGui/ImGuiLayer.h"
