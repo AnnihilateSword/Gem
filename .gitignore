@@ -1,5 +1,6 @@
 # Binary files
 **/Debug/
+!Gem/src/Gem/Debug/
 **/Release/
 **/x64/
 
