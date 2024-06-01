@@ -7,6 +7,8 @@
 #include "Gem/Core/LayerStack.h"
 #include "Gem/ImGui/ImGuiLayer.h"
 
+int main(int argc, char** argv);
+
 namespace Gem
 {
 	class GEM_API Application
@@ -14,8 +16,6 @@ namespace Gem
 	public:
 		Application();
 		virtual ~Application() = default;
-
-		void Run();
 
 		void OnEvent(Event& e);
 
@@ -26,6 +26,7 @@ namespace Gem
 
 		inline static Application& Get() { return *s_Instance; }
 	private:
+		void Run();
 		bool OnWindowClose(WindowCloseEvent& e);
 		bool OnWindowResize(WindowResizeEvent& e);
 
@@ -39,6 +40,7 @@ namespace Gem
 		float m_LastFrameTime{ 0.0f };
 	private:
 		static Application* s_Instance;
+		friend int ::main(int argc, char** argv);
 	};
 
 	// 在客户端中定义

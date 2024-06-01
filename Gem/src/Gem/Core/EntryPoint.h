@@ -5,7 +5,7 @@
 
 extern Gem::Application* Gem::CreateApplication();
 
-void main(int argc, char** argv)
+int main(int argc, char** argv)
 {
 	Gem::Log::Init();
 
