@@ -8,13 +8,18 @@ extern Gem::Application* Gem::CreateApplication();
 void main(int argc, char** argv)
 {
 	Gem::Log::Init();
-	GEM_CORE_WARN("Initialized Log!");
-	int a = 528;
-	GEM_INFO("Hello! var={0}", a);
 
+	GEM_PROFILE_BEGIN_SESSION("Startup", "GemProfile-Startup.json");
 	auto app = Gem::CreateApplication();
+	GEM_PROFILE_END_SESSION();
+
+	GEM_PROFILE_BEGIN_SESSION("Runtime", "GemProfile-Runtime.json");
 	app->Run();
+	GEM_PROFILE_END_SESSION();
+
+	GEM_PROFILE_BEGIN_SESSION("Shutdown", "GemProfile-Shutdown.json");
 	delete app;
+	GEM_PROFILE_END_SESSION();
 }
 
 #endif

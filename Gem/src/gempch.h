@@ -15,6 +15,8 @@
 
 #include "Gem/Core/Log.h"
 
+#include "Gem/Debug/Instrumentor.h"
+
 #ifdef GEM_PLATFORM_WINDOWS
 	#include <Windows.h>
 #endif

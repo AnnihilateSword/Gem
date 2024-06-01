@@ -30,3 +30,8 @@
 
 # Imgui
 **imgui.ini**
+
+# Profile files
+**GemProfile-Runtime.json**
+**GemProfile-Startup.json**
+**GemProfile-Shutdown.json**
